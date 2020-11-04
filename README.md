@@ -1,24 +1,45 @@
-# Lumen PHP Framework
+# Mini Project Book App
+Nama    : Muhajir
+Nim     : 185150701111010
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+project ini adalah implementas RESTAPI menggunakan Lumen Frameworks. 
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+terdapat beberapa enpoint yaitu :
 
-## Official Documentation
+1. /books
+2. /books/{id}
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Endpoint `/books` berguna untuk menampilkan semua buku yang ada didalam database. saat mengakses method index yang ada pada kelas `BooksController`  
+web.php
 
-## Contributing
+```php
+$router->get('books', 'BooksController@index');
+```
+Method index
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```php
+public function index()
+{
+    return Book::all();
+}
+```  
+  
+Endpoint `/books/{id}` untuk menampilkan buku berdasarkan id buku. saat endpoint ini diakses maka akan menjalankan method show yang ada di kelas `BooksController`
+```php
+$router->get('books/{id}', 'BooksController@show');
+```
 
-## Security Vulnerabilities
+Method show
+```php
+public function show($id)
+{
+    try {
+        return Book::findOrFail($id);
+    } catch (\Throwable $th) {
+        return response([
+            'message' => 'Book not found'
+        ], 404);
+    }
+}
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
